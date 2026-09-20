@@ -1,0 +1,6 @@
+# Build inputs, not runtime assets. The page only needs frames/ and img/.
+assets/
+pipeline/
+.tmp/
+architecture/
+*.md
