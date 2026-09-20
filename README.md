@@ -34,6 +34,18 @@ depends on a third-party service has a working fallback:
 - There are no social links, because the business has none published yet. Add
   them to the footer when they do.
 
+## Imagery
+
+`img/` holds eight AI-generated images (Higgsfield `soul_location`), used as the
+protocol thumbnails, the three location cards, and the backdrop behind the
+morning timeline. They are deliberately atmospheric: water, steam, cedar, dawn
+light. None of them shows a Revivr facility, a Revivr coach, or a real customer,
+because an invented photo of a real business is a claim.
+
+**Swap them for the business's own photos when they have them.** Keep the same
+filenames and aspect ratios (`4:3` for the four protocol images, `3:2` for the
+three locations, `16:9` for `dawn.webp`) and nothing else needs changing.
+
 ## Connecting Resend and Stripe
 
 Everything is scaffolded and inert until the keys are set. Copy `.env.example`
