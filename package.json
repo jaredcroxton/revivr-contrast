@@ -1,0 +1,14 @@
+{
+  "name": "revivr-contrast",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Revivr: The Wellness Club. Scroll-film site with camp booking, Resend enquiries and Stripe coaching checkout.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "resend": "^4.0.1",
+    "stripe": "^17.5.0"
+  }
+}

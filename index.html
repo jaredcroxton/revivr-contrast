@@ -29,7 +29,9 @@
   --ivory-2:#ECE2D2;
   --char:#14120E;
   --char-60:rgba(20,18,14,.62);
-  --char-38:rgba(20,18,14,.38);
+  --char-38:rgba(20,18,14,.38);   /* hairlines and rules only, fails as text */
+  --meta:#6A675F;                 /* small uppercase meta on ivory, AA pass */
+  --meta-dk:rgba(223,239,245,.62);/* small uppercase meta on ink, AA pass */
   --seam:#D59A52;
   --pad:clamp(20px,5vw,84px);
   --disp:"Fraunces",Georgia,serif;
@@ -219,7 +221,9 @@ img,svg{display:block;max-width:100%}
 
 /* ---------- after-film content ---------- */
 .after{position:relative;z-index:5}
-.after section{padding:clamp(88px,12vw,168px) var(--pad)}
+/* section rhythm: generous enough to breathe, tight enough that two adjacent
+   bands never leave a dead field between them */
+.after section{padding:clamp(72px,8vw,112px) var(--pad)}
 .lede{font-family:var(--disp);font-weight:300;font-variation-settings:"SOFT" 40,"opsz" 90}
 .kicker{
   font-size:10px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;
@@ -239,7 +243,7 @@ img,svg{display:block;max-width:100%}
   letter-spacing:-.015em;font-variation-settings:"SOFT" 50,"opsz" 144;max-width:16ch;
 }
 .manifesto .body{
-  margin-top:44px;max-width:58ch;font-size:clamp(15px,1.6vw,18.5px);line-height:1.72;
+  margin-top:34px;max-width:58ch;font-size:clamp(15px,1.6vw,18.5px);line-height:1.72;
   color:rgba(20,18,14,.72);
 }
 
@@ -250,13 +254,16 @@ img,svg{display:block;max-width:100%}
   font-family:var(--disp);font-weight:300;font-size:clamp(32px,5.4vw,66px);line-height:1.05;
   letter-spacing:-.015em;font-variation-settings:"SOFT" 40,"opsz" 120;max-width:15ch;
 }
-.rows{margin-top:clamp(48px,7vw,86px);border-top:1px solid rgba(20,18,14,.14)}
+.rows{margin-top:clamp(38px,4.6vw,62px);border-top:1px solid rgba(20,18,14,.14)}
 .row{
   display:grid;grid-template-columns:88px minmax(0,1.05fr) minmax(0,1.3fr);gap:clamp(18px,4vw,54px);
   align-items:start;padding:clamp(28px,4vw,44px) 0;border-bottom:1px solid rgba(20,18,14,.14);
   transition:background .5s ease;
 }
 .row:hover{background:rgba(20,18,14,.028)}
+/* the last row already ends on a rule, so its own padding would double up
+   against the section padding below it */
+.row:last-child{padding-bottom:clamp(20px,2.6vw,30px)}
 .row .n{
   font-family:var(--disp);font-size:15px;font-weight:500;letter-spacing:.06em;
   font-variation-settings:"opsz" 30;color:var(--ember);padding-top:6px;
@@ -267,8 +274,8 @@ img,svg{display:block;max-width:100%}
 }
 .row p{font-size:15.5px;line-height:1.7;color:var(--char-60);max-width:46ch;padding-top:8px}
 .row .meta{
-  margin-top:14px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;
-  font-weight:600;color:var(--char-38);
+  margin-top:14px;font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  font-weight:600;color:var(--meta);
 }
 @media(max-width:820px){
   .row{grid-template-columns:44px 1fr}
@@ -286,7 +293,7 @@ img,svg{display:block;max-width:100%}
   font-family:var(--disp);font-weight:300;font-size:clamp(32px,5.4vw,66px);line-height:1.05;
   letter-spacing:-.015em;font-variation-settings:"SOFT" 20,"opsz" 120;max-width:15ch;
 }
-.time{margin-top:clamp(48px,7vw,80px);position:relative}
+.time{margin-top:clamp(38px,4.6vw,62px);position:relative}
 .time::before{
   content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;
   background:linear-gradient(to bottom,var(--ice),rgba(143,207,227,.14));
@@ -305,43 +312,14 @@ img,svg{display:block;max-width:100%}
   display:block;font-family:var(--ui);font-size:15.5px;font-weight:600;letter-spacing:.005em;
   margin-bottom:5px;
 }
-.tick .d span{font-size:14.5px;line-height:1.65;color:rgba(223,239,245,.6)}
+.tick .d span{font-size:14.5px;line-height:1.65;color:rgba(223,239,245,.7)}
 @media(max-width:660px){.tick{grid-template-columns:78px 1fr}}
 .morning .foot{
   margin-top:clamp(40px,6vw,64px);padding-top:26px;border-top:1px solid rgba(223,239,245,.14);
   display:flex;flex-wrap:wrap;gap:14px 40px;align-items:baseline;
   font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;
-  color:rgba(223,239,245,.5);
+  color:var(--meta-dk);
 }
-
-/* locations */
-.locations{background:var(--ivory);color:var(--char)}
-.locations .kicker{color:var(--ember)}
-.locations h2{
-  font-family:var(--disp);font-weight:300;font-size:clamp(32px,5.4vw,66px);line-height:1.05;
-  letter-spacing:-.015em;font-variation-settings:"SOFT" 40,"opsz" 120;max-width:14ch;
-}
-.locs{
-  margin-top:clamp(46px,6vw,78px);display:grid;gap:1px;background:rgba(20,18,14,.14);
-  grid-template-columns:repeat(3,1fr);border:1px solid rgba(20,18,14,.14);
-}
-.loc{background:var(--ivory);padding:clamp(28px,3.4vw,44px);transition:background .5s ease}
-.loc:hover{background:var(--ivory-2)}
-.loc .no{
-  font-size:10px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;
-  color:var(--ember);margin-bottom:22px;
-}
-.loc h3{
-  font-family:var(--disp);font-weight:300;font-size:clamp(26px,3.2vw,40px);line-height:1.05;
-  font-variation-settings:"SOFT" 40,"opsz" 90;letter-spacing:-.012em;
-}
-.loc p{margin-top:16px;font-size:14.5px;line-height:1.68;color:var(--char-60)}
-.loc .st{
-  margin-top:22px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;
-  font-weight:700;color:var(--char-38);
-}
-.loc .st.live{color:var(--ember)}
-@media(max-width:860px){.locs{grid-template-columns:1fr}}
 
 /* pricing */
 .pricing{background:var(--ivory-2);color:var(--char)}
@@ -350,7 +328,7 @@ img,svg{display:block;max-width:100%}
   font-family:var(--disp);font-weight:300;font-size:clamp(32px,5.4vw,66px);line-height:1.05;
   letter-spacing:-.015em;font-variation-settings:"SOFT" 40,"opsz" 120;max-width:14ch;
 }
-.plans{margin-top:clamp(46px,6vw,78px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,22px)}
+.plans{margin-top:clamp(36px,4.4vw,56px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,22px)}
 .plan{
   background:var(--ivory);border:1px solid rgba(20,18,14,.13);padding:clamp(28px,3vw,40px);
   display:flex;flex-direction:column;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s ease;
@@ -363,7 +341,7 @@ img,svg{display:block;max-width:100%}
   margin-top:26px;font-family:var(--disp);font-weight:300;font-size:clamp(42px,5vw,62px);
   line-height:1;font-variation-settings:"SOFT" 20,"opsz" 120;letter-spacing:-.02em;
 }
-.plan .per{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--char-38);margin-top:10px}
+.plan .per{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--meta);margin-top:10px}
 .plan.hero .per{color:rgba(223,239,245,.5)}
 .plan ul{list-style:none;margin-top:28px;padding-top:22px;border-top:1px solid rgba(20,18,14,.13);flex:1}
 .plan.hero ul{border-top-color:rgba(223,239,245,.16)}
@@ -385,18 +363,13 @@ img,svg{display:block;max-width:100%}
 
 /* partners */
 .partners{background:var(--ivory);color:var(--char);padding-top:clamp(64px,8vw,96px);padding-bottom:clamp(64px,8vw,96px)}
-.partners .kicker{color:var(--char-38);justify-content:center}
+.partners .kicker{color:var(--meta);justify-content:center}
 .partners .kicker::before{display:none}
 .plist{
   margin-top:34px;display:flex;flex-wrap:wrap;justify-content:center;
   gap:clamp(22px,4vw,64px);align-items:center;
 }
-.plist span{
-  font-family:var(--disp);font-weight:400;font-size:clamp(16px,2vw,24px);
-  font-variation-settings:"SOFT" 30,"opsz" 50;letter-spacing:.005em;
-  color:var(--char-38);transition:color .4s ease;
-}
-.plist span:hover{color:var(--char)}
+
 
 /* footer */
 footer{background:var(--abyss);color:var(--frost);padding:clamp(72px,9vw,120px) var(--pad) 40px}
@@ -406,33 +379,271 @@ footer{background:var(--abyss);color:var(--frost);padding:clamp(72px,9vw,120px) 
   font-family:var(--disp);font-weight:600;font-size:26px;letter-spacing:.11em;margin-top:18px;
   font-variation-settings:"SOFT" 0,"opsz" 60;
 }
-.fbrand p{margin-top:14px;font-size:14px;color:rgba(223,239,245,.52);max-width:34ch;line-height:1.7}
+.fbrand p{margin-top:14px;font-size:14px;color:var(--meta-dk);max-width:34ch;line-height:1.7}
 .fcol h4{
   font-size:10px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;
-  color:rgba(223,239,245,.42);margin-bottom:20px;
+  color:rgba(223,239,245,.58);margin-bottom:20px;
 }
 .fcol a,.fcol p{display:block;font-size:14.5px;line-height:1.9;color:rgba(223,239,245,.78)}
 .fcol a{transition:color .3s ease}
 .fcol a:hover{color:var(--ice)}
-.socials{display:flex;gap:14px;margin-top:24px}
-.socials a{
-  width:36px;height:36px;border:1px solid rgba(223,239,245,.2);border-radius:999px;
-  display:flex;align-items:center;justify-content:center;transition:background .35s ease,color .35s ease,border-color .35s ease;
+.fcol address{font-style:normal;margin-top:8px}
+.fcol a+p{margin-top:16px;padding-top:16px;border-top:1px solid rgba(223,239,245,.12);color:rgba(223,239,245,.52)}
+.fcol address a{color:rgba(223,239,245,.6)}
+.fbook{
+  margin-top:28px;display:inline-flex;align-items:center;gap:11px;
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+  border:1px solid rgba(223,239,245,.3);padding:14px 26px;border-radius:999px;
+  transition:background .35s ease,color .35s ease,border-color .35s ease;
 }
-.socials a:hover{background:var(--frost);color:var(--abyss);border-color:var(--frost)}
-.socials svg{width:15px;height:15px}
+.fbook svg{width:13px;height:13px}
+.fbook:hover{background:var(--frost);color:var(--abyss);border-color:var(--frost)}
 .fbot{
   max-width:1240px;margin:clamp(52px,7vw,86px) auto 0;padding-top:26px;
   border-top:1px solid rgba(223,239,245,.12);display:flex;flex-wrap:wrap;gap:12px 32px;
   justify-content:space-between;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-  color:rgba(223,239,245,.4);font-weight:500;
+  color:rgba(223,239,245,.58);font-weight:500;
 }
 .fbot nav{display:flex;flex-wrap:wrap;gap:12px 26px}
 @media(max-width:860px){.fgrid{grid-template-columns:1fr}}
 
+/* ============================================================
+   BOOKING LAYER — everything below the film
+   ============================================================ */
+
+/* anchors must clear the sticky header */
+/* sits just inside the docked header (67px) so a jump never reveals a sliver
+   of the section above, and only eats the target's own top padding */
+#protocol,#morning,#book,#pricing,#faq,#enquire,#contact{scroll-margin-top:60px}
+html,body{overflow-x:clip}
+
+/* one-shot scroll reveals for the content sections */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);transition-delay:var(--rvd,0ms)}
+.rv.in{opacity:1;transform:none}
+html:not(.enhanced) .rv{opacity:1;transform:none}
+
+/* shared section intro */
+.shead{max-width:1240px;margin:0 auto}
+.shead .lede+.slead{
+  margin-top:26px;max-width:54ch;font-size:clamp(15px,1.6vw,18px);line-height:1.7;
+}
+
+/* ---------- BOOK: the conversion moment ---------- */
+.book{background:var(--ivory);color:var(--char);position:relative}
+.book .kicker{color:var(--ember)}
+.book h2{
+  font-family:var(--disp);font-weight:300;font-size:clamp(32px,5.4vw,66px);line-height:1.05;
+  letter-spacing:-.015em;font-variation-settings:"SOFT" 40,"opsz" 120;max-width:15ch;
+}
+.book .slead{color:var(--char-60)}
+.bgrid{
+  margin-top:clamp(36px,4.4vw,56px);display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(14px,1.8vw,22px);
+}
+.bcard{
+  display:flex;flex-direction:column;background:var(--ivory);
+  border:1px solid rgba(20,18,14,.14);padding:clamp(26px,3vw,38px);
+  transition:transform .55s cubic-bezier(.16,1,.3,1),box-shadow .55s ease,border-color .55s ease;
+}
+@media(hover:hover) and (pointer:fine){
+  .bcard:hover{transform:translateY(-5px);box-shadow:0 26px 54px -30px rgba(20,18,14,.45);border-color:rgba(20,18,14,.26)}
+}
+.bcard .no{
+  font-size:10px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;
+  color:var(--ember);display:flex;align-items:center;gap:10px;
+}
+.bcard .no::after{content:"";flex:1;height:1px;background:currentColor;opacity:.3}
+.bcard h3{
+  margin-top:20px;font-family:var(--disp);font-weight:300;font-size:clamp(26px,3.2vw,40px);
+  line-height:1.04;font-variation-settings:"SOFT" 40,"opsz" 90;letter-spacing:-.012em;
+}
+.bcard p{margin-top:14px;font-size:14.5px;line-height:1.68;color:var(--char-60)}
+.bcard .det{
+  margin-top:20px;padding-top:18px;border-top:1px solid rgba(20,18,14,.12);
+  display:flex;flex-direction:column;gap:7px;
+  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--meta);
+}
+.bcard .sp{flex:1;min-height:18px}
+.bcard .go{
+  margin-top:26px;display:flex;align-items:center;justify-content:center;gap:10px;
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+  background:var(--ember-lt);color:#fff;padding:16px 20px;border-radius:999px;
+  transition:background .3s ease,transform .3s cubic-bezier(.16,1,.3,1);
+}
+.bcard .go svg{width:13px;height:13px;flex:none}
+.bcard .go:hover{background:#F2872C}
+.bcard .go:active{transform:scale(.985)}
+.book .alt{
+  margin-top:clamp(34px,4vw,48px);padding-top:26px;border-top:1px solid rgba(20,18,14,.14);
+  display:flex;flex-wrap:wrap;gap:14px 30px;align-items:center;
+  font-size:13.5px;color:var(--char-60);
+}
+.book .alt strong{font-weight:600;color:var(--char)}
+.book .alt a{font-weight:600;color:var(--ember);border-bottom:1px solid rgba(194,85,26,.35);transition:border-color .3s ease}
+.book .alt a:hover{border-color:var(--ember)}
+@media(max-width:860px){.bgrid{grid-template-columns:1fr}}
+
+/* ---------- FAQ ---------- */
+.faq{background:var(--ivory-2);color:var(--char)}
+.faq .kicker{color:var(--ember)}
+.faq h2{
+  font-family:var(--disp);font-weight:300;font-size:clamp(32px,5.4vw,66px);line-height:1.05;
+  letter-spacing:-.015em;font-variation-settings:"SOFT" 40,"opsz" 120;max-width:14ch;
+}
+.qs{margin-top:clamp(36px,4.4vw,56px);margin-bottom:26px;border-top:1px solid rgba(20,18,14,.16)}
+.q{border-bottom:1px solid rgba(20,18,14,.16)}
+.q summary{
+  list-style:none;cursor:pointer;display:flex;align-items:flex-start;gap:clamp(16px,3vw,34px);
+  padding:clamp(22px,2.8vw,30px) 0;
+  font-family:var(--disp);font-weight:300;font-size:clamp(19px,2.3vw,27px);line-height:1.25;
+  font-variation-settings:"SOFT" 40,"opsz" 60;letter-spacing:-.008em;
+  transition:color .3s ease;
+}
+.q summary::-webkit-details-marker{display:none}
+.q summary:hover{color:var(--ember)}
+.q summary .ic{
+  flex:none;width:19px;height:19px;margin-left:auto;margin-top:.3em;position:relative;
+}
+.q summary .ic::before,.q summary .ic::after{
+  content:"";position:absolute;left:0;top:9px;width:19px;height:1.5px;background:var(--ember);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.q summary .ic::after{transform:rotate(90deg)}
+.q[open] summary .ic::after{transform:rotate(0)}
+.q .a{
+  padding:0 0 clamp(24px,3vw,32px) 0;max-width:62ch;
+  font-size:15.5px;line-height:1.75;color:var(--char-60);
+}
+.q .a a{font-weight:600;color:var(--ember);border-bottom:1px solid rgba(194,85,26,.35)}
+
+/* ---------- ENQUIRE (Resend-backed) ---------- */
+.enquire{background:var(--ink);color:var(--frost);position:relative;overflow:hidden}
+.enquire::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(70% 60% at 88% 0%,rgba(227,165,68,.11),transparent 68%);
+}
+.enquire .wrap{position:relative}
+.enquire .kicker{color:var(--gold)}
+.enquire h2{
+  font-family:var(--disp);font-weight:300;font-size:clamp(32px,5.4vw,60px);line-height:1.05;
+  letter-spacing:-.015em;font-variation-settings:"SOFT" 30,"opsz" 120;max-width:15ch;
+}
+.egrid{
+  margin-top:clamp(36px,4.4vw,56px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);
+  gap:clamp(34px,6vw,86px);align-items:start;
+}
+.eside p{font-size:15.5px;line-height:1.72;color:rgba(223,239,245,.72);max-width:38ch}
+.eside .direct{margin-top:34px;display:flex;flex-direction:column;gap:2px}
+.eside .direct a{
+  font-family:var(--disp);font-weight:300;font-size:clamp(22px,2.6vw,31px);line-height:1.35;
+  font-variation-settings:"SOFT" 20,"opsz" 60;letter-spacing:-.01em;
+  color:var(--frost);transition:color .3s ease;width:fit-content;
+}
+.eside .direct a:hover{color:var(--ice)}
+.eside .direct span{
+  font-size:10px;letter-spacing:.26em;text-transform:uppercase;font-weight:700;
+  color:var(--meta-dk);margin-top:18px;
+}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f{display:flex;flex-direction:column;gap:9px;margin-bottom:16px}
+.f label{
+  font-size:10px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;
+  color:var(--meta-dk);
+}
+.f input,.f select,.f textarea{
+  font-family:var(--ui);font-size:15px;color:var(--frost);background:rgba(223,239,245,.05);
+  border:1px solid rgba(223,239,245,.18);border-radius:2px;padding:14px 15px;width:100%;
+  transition:border-color .3s ease,background .3s ease;
+}
+.f textarea{resize:vertical;min-height:104px;line-height:1.6}
+.f select{appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%238FCFE3' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;background-size:15px;padding-right:42px;
+}
+.f select option{background:var(--ink);color:var(--frost)}
+.f input::placeholder,.f textarea::placeholder{color:rgba(223,239,245,.3)}
+.f input:hover,.f select:hover,.f textarea:hover{border-color:rgba(223,239,245,.3)}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--ice);background:rgba(223,239,245,.08)}
+.fsub{
+  margin-top:10px;display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  font-family:var(--ui);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+  background:var(--ember-lt);color:#fff;border:0;border-radius:999px;padding:17px 34px;cursor:pointer;
+  transition:background .3s ease,transform .3s cubic-bezier(.16,1,.3,1),opacity .3s ease;
+}
+.fsub:hover{background:#F2872C}
+.fsub:active{transform:scale(.985)}
+.fsub[disabled]{opacity:.55;cursor:default;transform:none}
+.fsub svg{width:13px;height:13px}
+.fnote{margin-top:16px;font-size:12.5px;line-height:1.65;color:rgba(223,239,245,.6)}
+.fnote a{color:var(--ice);border-bottom:1px solid rgba(143,207,227,.35)}
+.fmsg{
+  margin-top:18px;font-size:14px;line-height:1.6;padding:14px 16px;border-radius:2px;display:none;
+}
+.fmsg.ok{display:block;background:rgba(143,207,227,.1);border:1px solid rgba(143,207,227,.34);color:var(--frost)}
+.fmsg.err{display:block;background:rgba(226,113,29,.1);border:1px solid rgba(226,113,29,.4);color:var(--frost)}
+@media(max-width:900px){.egrid{grid-template-columns:1fr;gap:38px}}
+@media(max-width:560px){.frow{grid-template-columns:1fr;gap:0}}
+
+/* ---------- plan buttons are real buttons now ---------- */
+.plan .go{
+  font-family:var(--ui);width:100%;background:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.plan .go[disabled]{opacity:.6;cursor:default}
+.plan .go .sp{width:13px;height:13px;border:1.5px solid currentColor;border-right-color:transparent;
+  border-radius:50%;animation:spin .7s linear infinite;display:none}
+.plan .go.busy .sp{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pnote{
+  margin-top:clamp(26px,3vw,36px);font-size:13px;line-height:1.7;color:var(--char-60);max-width:62ch;
+}
+.pnote a{font-weight:600;color:var(--ember);border-bottom:1px solid rgba(194,85,26,.35)}
+
+/* partners are real links now */
+.plist a{
+  font-family:var(--disp);font-weight:400;font-size:clamp(16px,2vw,24px);
+  font-variation-settings:"SOFT" 30,"opsz" 50;letter-spacing:.005em;
+  color:var(--char-60);transition:color .4s ease;
+}
+.plist a:hover{color:var(--char)}
+
+/* ---------- fixed mobile action bar ---------- */
+.abar{
+  position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;gap:10px;
+  padding:10px var(--pad) calc(10px + env(safe-area-inset-bottom));
+  background:rgba(4,9,15,.9);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-top:1px solid rgba(223,239,245,.14);
+  transform:translateY(105%);transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.abar.up{transform:none}
+.abar a{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:9px;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+  padding:15px 10px;border-radius:999px;
+}
+.abar .call{border:1px solid rgba(223,239,245,.34);color:var(--frost)}
+.abar .call:active{background:rgba(223,239,245,.1)}
+.abar .bk{background:var(--ember-lt);color:#fff}
+.abar .bk:active{transform:scale(.985)}
+.abar svg{width:14px;height:14px;flex:none}
+@media(max-width:880px){.abar{display:flex}footer{padding-bottom:104px}}
+
+/* ---------- focus ring + skip link ---------- */
+a:focus-visible,button:focus-visible,summary:focus-visible,
+input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--ember-lt);outline-offset:3px;border-radius:2px;
+}
+.on-dark a:focus-visible{outline-color:var(--ice)}
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:300;background:var(--ivory);color:var(--char);
+  padding:14px 22px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+}
+.skip:focus{left:var(--pad);top:14px}
+
 @media(prefers-reduced-motion:reduce){
   .grain{animation:none}
   .cue i{animation:none}
+  .rv{opacity:1;transform:none;transition:none}
   *{transition-duration:.01ms !important}
 }
 </style>
@@ -448,6 +659,8 @@ footer{background:var(--abyss);color:var(--frost);padding:clamp(72px,9vw,120px) 
   <div class="lbl" id="lpct">Loading 0%</div>
 </div>
 
+<a class="skip" href="#protocol">Skip to content</a>
+
 <header class="chrome" id="chrome">
   <a class="brand" href="#top" aria-label="Revivr home">
     <svg viewBox="0 0 32 32" aria-hidden="true">
@@ -456,13 +669,14 @@ footer{background:var(--abyss);color:var(--frost);padding:clamp(72px,9vw,120px) 
     </svg>
     <span class="wm">REVIVR</span>
   </a>
-  <nav class="nav">
+  <nav class="nav" aria-label="Primary">
     <a href="#protocol">The Protocol</a>
     <a href="#morning">A Morning</a>
-    <a href="#locations">Locations</a>
-    <a href="#pricing">Pricing</a>
+    <a href="#book">Locations</a>
+    <a href="#pricing">Coaching</a>
+    <a href="#faq">FAQ</a>
   </nav>
-  <a class="cta-sm" href="#pricing">Book a camp</a>
+  <a class="cta-sm" href="#book">Book a camp</a>
 </header>
 
 <div class="gauge" id="gauge">
@@ -595,39 +809,70 @@ footer{background:var(--abyss);color:var(--frost);padding:clamp(72px,9vw,120px) 
     </div>
   </section>
 
-  <section class="locations" id="locations">
+  <section class="book" id="book">
     <div class="wrap">
-      <div class="kicker">Camp locations</div>
-      <h2 class="lede">Hand-selected partner sites down the south-east coast.</h2>
-      <div class="locs">
-        <div class="loc">
-          <div class="no">01 &mdash; Home</div>
+      <div class="shead rv">
+        <div class="kicker">Book a camp</div>
+        <h2 class="lede">Pick your coast. The calendar does the rest.</h2>
+        <p class="slead">Every camp runs off a live booking calendar, so you see the real dates and the seats still open before you commit. Three locations, one protocol, the same coaches.</p>
+      </div>
+      <div class="bgrid">
+        <div class="bcard rv">
+          <div class="no">01 / Home camp</div>
           <h3>Sunshine Coast</h3>
-          <p>13 Fairfax Street, Sippy Downs QLD 4556. The home camp, and where the full day experience runs.</p>
-          <div class="st live">Running weekly</div>
+          <p>The home camp, and where the full day experience runs. Cold, breath, heat and stillness, start to finish.</p>
+          <div class="sp"></div>
+          <div class="det">
+            <span>13 Fairfax Street, Sippy Downs</span>
+            <span>Live dates on the calendar</span>
+          </div>
+          <a class="go" href="https://r.newie.app/3fh7w7uglccg" target="_blank" rel="noopener">Book Sunshine Coast
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
-        <div class="loc">
+        <div class="bcard rv">
           <div class="no">02</div>
           <h3>Brisbane</h3>
           <p>Partner sites across the river city, built for people who want the protocol without the drive north.</p>
-          <div class="st live">Running weekly</div>
+          <div class="sp"></div>
+          <div class="det">
+            <span>Partner sites across Brisbane</span>
+            <span>Live dates on the calendar</span>
+          </div>
+          <a class="go" href="https://r.newie.app/3ej8xu3ud6c9" target="_blank" rel="noopener">Book Brisbane
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
-        <div class="loc">
+        <div class="bcard rv">
           <div class="no">03</div>
           <h3>Gold Coast</h3>
           <p>Coastal camps with the same protocol, the same coaches, and a very different view of the sunrise.</p>
-          <div class="st live">Running weekly</div>
+          <div class="sp"></div>
+          <div class="det">
+            <span>Coastal partner sites</span>
+            <span>Live dates on the calendar</span>
+          </div>
+          <a class="go" href="https://r.newie.app/42zexpb7r5za" target="_blank" rel="noopener">Book Gold Coast
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
+      </div>
+      <div class="alt rv">
+        <strong>Not sure which camp suits you?</strong>
+        <span>Call <a href="tel:+61431525118">0431 525 118</a>, or <a href="#enquire">send an enquiry</a> and we will point you at the right one.</span>
       </div>
     </div>
   </section>
 
   <section class="pricing" id="pricing">
     <div class="wrap">
-      <div class="kicker">Choose your plan</div>
-      <h2 class="lede">Coaching that carries on after the ice.</h2>
+      <div class="shead rv">
+        <div class="kicker">Coaching packages</div>
+        <h2 class="lede">Coaching that carries on after the ice.</h2>
+        <p class="slead">A camp resets the week. Coaching is what holds it in place between them. Pay online and we will be in touch to lock your first session.</p>
+      </div>
       <div class="plans">
-        <div class="plan hero">
+        <div class="plan hero rv">
           <div class="name">Essential Coaching Package</div>
           <div class="price">$99</div>
           <div class="per">Per week</div>
@@ -635,26 +880,130 @@ footer{background:var(--abyss);color:var(--frost);padding:clamp(72px,9vw,120px) 
             <li>45 minute PT session each week</li>
             <li>Custom online program</li>
           </ul>
-          <a class="go" href="#contact">Purchase now</a>
+          <button class="go" type="button" data-plan="essential" data-label="Essential Coaching Package">
+            <span class="sp" aria-hidden="true"></span><span class="t">Purchase now</span>
+          </button>
         </div>
-        <div class="plan">
+        <div class="plan rv">
           <div class="name">Coaching Session</div>
           <div class="price">$75</div>
           <div class="per">Per session</div>
           <ul>
             <li>45 minute PT session</li>
           </ul>
-          <a class="go" href="#contact">Purchase now</a>
+          <button class="go" type="button" data-plan="session" data-label="Coaching Session">
+            <span class="sp" aria-hidden="true"></span><span class="t">Purchase now</span>
+          </button>
         </div>
-        <div class="plan">
+        <div class="plan rv">
           <div class="name">PT Business Coaching</div>
           <div class="price">$99</div>
           <div class="per">Per month</div>
           <ul>
             <li>90 minute development session, fortnightly</li>
           </ul>
-          <a class="go" href="#contact">Purchase now</a>
+          <button class="go" type="button" data-plan="business" data-label="PT Business Coaching">
+            <span class="sp" aria-hidden="true"></span><span class="t">Purchase now</span>
+          </button>
         </div>
+      </div>
+      <p class="pnote rv">Coaching is separate from the camp day experience. To book a camp, <a href="#book">pick your location</a>. Prices in AUD. Questions about which package fits, <a href="#enquire">ask us first</a>.</p>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <div class="shead rv">
+        <div class="kicker">Before you come</div>
+        <h2 class="lede">The things everyone asks first.</h2>
+      </div>
+      <div class="qs rv">
+        <details class="q">
+          <summary>I have never done cold water before. Can I still come?<span class="ic" aria-hidden="true"></span></summary>
+          <div class="a">Yes, and most people at their first camp have not. The immersion is coached the whole way and scaled to the person standing in the tub, and you go in with a partner rather than alone. It is controlled exposure, never a dare. All levels, all ages.</div>
+        </details>
+        <details class="q">
+          <summary>What do I need to bring?<span class="ic" aria-hidden="true"></span></summary>
+          <div class="a">A towel, and something you can get in the water in. Everything else is set up for you when you arrive.</div>
+        </details>
+        <details class="q">
+          <summary>How long does a camp run?<span class="ic" aria-hidden="true"></span></summary>
+          <div class="a">Around three hours. Arrival and coffee from 06:15, the breath circle at 06:40, the plunge at 07:00, then sauna, movement, contrast rounds, and everyone sitting down together from about 09:10. The full timeline is in <a href="#morning">A morning at camp</a>.</div>
+        </details>
+        <details class="q">
+          <summary>What actually happens, in order?<span class="ic" aria-hidden="true"></span></summary>
+          <div class="a">Four things, in the right order, with someone watching: cold water immersion, grounding breathwork, sauna, then stillness through yoga, pilates and mindfulness-based workshops. That sequence is the whole method. It is laid out in <a href="#protocol">The Protocol</a>.</div>
+        </details>
+        <details class="q">
+          <summary>Where do the camps run?<span class="ic" aria-hidden="true"></span></summary>
+          <div class="a">Three locations across South East Queensland: the Sunshine Coast home camp at 13 Fairfax Street, Sippy Downs, plus hand-selected partner sites in Brisbane and on the Gold Coast. Each has its own live booking calendar under <a href="#book">Book a camp</a>.</div>
+        </details>
+        <details class="q">
+          <summary>Is a camp the same as the coaching packages?<span class="ic" aria-hidden="true"></span></summary>
+          <div class="a">No. A camp is the guided day experience you book through your location calendar. The coaching packages are ongoing personal training and programming you buy separately under <a href="#pricing">Coaching packages</a>.</div>
+        </details>
+        <details class="q">
+          <summary>How do I get hold of someone?<span class="ic" aria-hidden="true"></span></summary>
+          <div class="a">Call <a href="tel:+61431525118">0431 525 118</a> or email <a href="mailto:info@revivr.com.au">info@revivr.com.au</a>. We are contactable seven days, 07:00 to 22:00. There is also an <a href="#enquire">enquiry form</a> if you would rather write it down.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="enquire on-dark" id="enquire">
+    <div class="wrap">
+      <div class="shead rv">
+        <div class="kicker">Talk to us</div>
+        <h2 class="lede">Tell us what you are after.</h2>
+      </div>
+      <div class="egrid">
+        <div class="eside rv">
+          <p>If you are weighing up a camp, bringing a group, or want to know which coaching package fits, send it through and we will come back to you.</p>
+          <div class="direct">
+            <span>Or go direct</span>
+            <a href="tel:+61431525118">0431 525 118</a>
+            <a href="mailto:info@revivr.com.au">info@revivr.com.au</a>
+            <span>Seven days, 07:00 to 22:00</span>
+          </div>
+        </div>
+        <form class="eform rv" id="eform" novalidate>
+          <div class="frow">
+            <div class="f">
+              <label for="fname">Name</label>
+              <input id="fname" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+            </div>
+            <div class="f">
+              <label for="fphone">Phone</label>
+              <input id="fphone" name="phone" type="tel" autocomplete="tel" placeholder="Best number">
+            </div>
+          </div>
+          <div class="frow">
+            <div class="f">
+              <label for="femail">Email</label>
+              <input id="femail" name="email" type="email" autocomplete="email" placeholder="you@email.com" required>
+            </div>
+            <div class="f">
+              <label for="floc">Which camp</label>
+              <select id="floc" name="location">
+                <option value="Not sure yet">Not sure yet</option>
+                <option value="Sunshine Coast">Sunshine Coast</option>
+                <option value="Brisbane">Brisbane</option>
+                <option value="Gold Coast">Gold Coast</option>
+                <option value="Coaching, not a camp">Coaching, not a camp</option>
+              </select>
+            </div>
+          </div>
+          <div class="f">
+            <label for="fmessage">What are you after</label>
+            <textarea id="fmessage" name="message" placeholder="First camp, a group booking, which coaching package fits, anything." required></textarea>
+          </div>
+          <button class="fsub" type="submit" id="fsub">
+            <span class="t">Send enquiry</span>
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="fmsg" id="fmsg" role="status" aria-live="polite"></div>
+          <p class="fnote">Ready to lock a date instead? <a href="#book">Go straight to the booking calendar</a>.</p>
+        </form>
       </div>
     </div>
   </section>
@@ -663,7 +1012,10 @@ footer{background:var(--abyss);color:var(--frost);padding:clamp(72px,9vw,120px) 
     <div class="wrap">
       <div class="kicker">Our partners</div>
       <div class="plist">
-        <span>Fitness Cartel</span><span>Recovery Room Australia</span><span>Med Infusions</span><span>One Block Back</span>
+        <a href="https://www.fitnesscartel.com.au/clubs/sippy-downs/" target="_blank" rel="noopener">Fitness Cartel</a>
+        <a href="https://recoveryroomaustralia.com.au/" target="_blank" rel="noopener">Recovery Room Australia</a>
+        <a href="https://medinfusions.com.au/" target="_blank" rel="noopener">Med Infusions</a>
+        <a href="https://www.oneblockback.com.au/" target="_blank" rel="noopener">One Block Back</a>
       </div>
     </div>
   </section>
@@ -679,31 +1031,44 @@ footer{background:var(--abyss);color:var(--frost);padding:clamp(72px,9vw,120px) 
       </svg>
       <div class="wm">REVIVR</div>
       <p>The Wellness Club. Cold water, breath, heat and stillness, run as a guided camp across South East Queensland.</p>
-      <div class="socials">
-        <a href="#" aria-label="Revivr on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.66l7.73-8.83L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.11z"/></svg></a>
-        <a href="#" aria-label="Revivr on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.18a6.66 6.66 0 1 0 0 13.32 6.66 6.66 0 0 0 0-13.32zm0 10.98a4.32 4.32 0 1 1 0-8.64 4.32 4.32 0 0 1 0 8.64zm8.48-11.24a1.56 1.56 0 1 1-3.11 0 1.56 1.56 0 0 1 3.11 0z"/></svg></a>
-        <a href="#" aria-label="Revivr on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.86 1.21 3.06c.15.2 2.09 3.2 5.07 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.8h-.01a9.8 9.8 0 0 1-4.99-1.37l-.36-.21-3.71.97.99-3.62-.23-.37a9.78 9.78 0 0 1-1.5-5.22c0-5.4 4.4-9.8 9.81-9.8a9.74 9.74 0 0 1 6.93 2.88 9.72 9.72 0 0 1 2.87 6.93c0 5.4-4.4 9.81-9.8 9.81zM20.4 3.58A11.68 11.68 0 0 0 12.05 0C5.6 0 .35 5.25.34 11.7c0 2.06.54 4.08 1.57 5.86L.25 24l6.58-1.73a11.7 11.7 0 0 0 5.22 1.24h.01c6.45 0 11.7-5.25 11.7-11.7 0-3.13-1.21-6.06-3.42-8.27z"/></svg></a>
-      </div>
+      <a class="fbook" href="#book">Book a camp
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
     <div class="fcol">
       <h4>Get in touch</h4>
-      <a href="tel:0431525118">0431 525 118</a>
+      <a href="tel:+61431525118">0431 525 118</a>
       <a href="mailto:info@revivr.com.au">info@revivr.com.au</a>
-      <p>13 Fairfax Street<br>Sippy Downs, Queensland 4556</p>
+      <address>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=13%20Fairfax%20Street%20Sippy%20Downs%20Queensland%20Australia%204556" target="_blank" rel="noopener">13 Fairfax Street<br>Sippy Downs, Queensland 4556</a>
+      </address>
     </div>
     <div class="fcol">
-      <h4>Open</h4>
-      <p>Monday to Friday<br>07:00 &ndash; 22:00</p>
-      <p>Saturday &amp; Sunday<br>07:00 &ndash; 22:00</p>
+      <h4>Camps</h4>
+      <a href="https://r.newie.app/3fh7w7uglccg" target="_blank" rel="noopener">Book Sunshine Coast</a>
+      <a href="https://r.newie.app/3ej8xu3ud6c9" target="_blank" rel="noopener">Book Brisbane</a>
+      <a href="https://r.newie.app/42zexpb7r5za" target="_blank" rel="noopener">Book Gold Coast</a>
+      <p>Seven days<br>07:00 to 22:00</p>
     </div>
   </div>
   <div class="fbot">
-    <span>&copy; 2026 Revivr: The Wellness Club</span>
-    <nav>
-      <a href="#">Terms &amp; Conditions</a><a href="#">Privacy Policy</a><a href="#">FAQs</a><a href="#">Careers</a>
+    <span>&copy; <span id="yr">2026</span> Revivr: The Wellness Club</span>
+    <nav aria-label="Footer">
+      <a href="#protocol">The Protocol</a><a href="#morning">A Morning</a><a href="#book">Locations</a><a href="#pricing">Coaching</a><a href="#faq">FAQ</a><a href="#enquire">Contact</a>
     </nav>
   </div>
 </footer>
+
+<div class="abar" id="abar">
+  <a class="call" href="tel:+61431525118">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1z"/></svg>
+    Call now
+  </a>
+  <a class="bk" href="#book">
+    Book a camp
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</div>
 
 <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 <script>
@@ -1029,6 +1394,184 @@ if (!REDUCED && JUMP === null && window.Lenis){
 
 size();
 pump();
+})();
+</script>
+
+<script>
+/* ============================================================
+   BOOKING LAYER
+   Reveals, mobile action bar, Resend enquiry, Stripe checkout.
+   Every action has a working fallback, so no control is ever dead.
+   ============================================================ */
+(function(){
+'use strict';
+
+var REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+var PHONE   = '+61431525118';
+var EMAIL   = 'info@revivr.com.au';
+
+document.documentElement.classList.add('enhanced');
+
+/* ---------- footer year ---------- */
+var yr = document.getElementById('yr');
+if (yr) yr.textContent = new Date().getFullYear();
+
+/* ---------- one-shot reveals with a self-clearing stagger ---------- */
+(function(){
+  var items = [].slice.call(document.querySelectorAll('.rv'));
+  if (!items.length) return;
+  if (REDUCED || !('IntersectionObserver' in window)){
+    items.forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    /* stagger siblings that arrive together, capped so nothing waits long */
+    var shown = 0;
+    entries.forEach(function(en){
+      if (!en.isIntersecting) return;
+      var el = en.target;
+      el.style.setProperty('--rvd', Math.min(shown * 80, 320) + 'ms');
+      el.classList.add('in');
+      shown++;
+      io.unobserve(el);
+      el.addEventListener('transitionend', function once(){
+        el.style.removeProperty('--rvd');
+        el.removeEventListener('transitionend', once);
+      });
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+  items.forEach(function(el){ io.observe(el); });
+})();
+
+/* ---------- mobile action bar: only once the film has handed over ---------- */
+(function(){
+  var bar = document.getElementById('abar');
+  var after = document.querySelector('main.after');
+  if (!bar || !after) return;
+  if (!('IntersectionObserver' in window)){ bar.classList.add('up'); return; }
+  new IntersectionObserver(function(entries){
+    bar.classList.toggle('up', entries[0].isIntersecting || entries[0].boundingClientRect.top < 0);
+  }, { threshold: 0 }).observe(after);
+})();
+
+/* ---------- enquiry form, posted to Resend via /api/enquire ---------- */
+(function(){
+  var form = document.getElementById('eform');
+  if (!form) return;
+  var btn = document.getElementById('fsub');
+  var msg = document.getElementById('fmsg');
+  var label = btn.querySelector('.t');
+
+  function say(kind, html){ msg.className = 'fmsg ' + kind; msg.innerHTML = html; }
+
+  /* the always-working path: a prefilled email the visitor sends themselves */
+  function mailtoFor(d){
+    var body = [
+      'Name: ' + (d.name || ''),
+      'Phone: ' + (d.phone || ''),
+      'Email: ' + (d.email || ''),
+      'Camp: ' + (d.location || ''),
+      '',
+      d.message || ''
+    ].join('\n');
+    return 'mailto:' + EMAIL
+      + '?subject=' + encodeURIComponent('Camp enquiry from ' + (d.name || 'the website'))
+      + '&body=' + encodeURIComponent(body);
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var d = {
+      name:     form.name.value.trim(),
+      phone:    form.phone.value.trim(),
+      email:    form.email.value.trim(),
+      location: form.location.value,
+      message:  form.message.value.trim()
+    };
+    if (!d.name || !d.email || !d.message){
+      say('err', 'Add your name, email and what you are after, then send it again.');
+      return;
+    }
+    btn.disabled = true; label.textContent = 'Sending';
+    msg.className = 'fmsg';
+
+    fetch('/api/enquire', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(d)
+    })
+    .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, body: j }; }); })
+    .then(function(res){
+      if (!res.ok) throw new Error((res.body && res.body.error) || 'send failed');
+      form.reset();
+      say('ok', 'Thanks ' + d.name.split(' ')[0] + ', that is with us. We will come back to you on ' + d.email + '. If it is urgent, call <a href="tel:' + PHONE + '">0431 525 118</a>.');
+      label.textContent = 'Sent';
+    })
+    .catch(function(){
+      /* email delivery not wired up yet, or the request failed: hand them a
+         prefilled email instead of leaving the button dead */
+      var href = mailtoFor(d);
+      say('err', 'We could not send that from here. <a href="' + href + '">Open it as an email</a> and hit send, or call <a href="tel:' + PHONE + '">0431 525 118</a>.');
+      label.textContent = 'Send enquiry';
+      try { window.location.href = href; } catch(_){}
+    })
+    .then(function(){
+      btn.disabled = false;
+      setTimeout(function(){ if (label.textContent === 'Sent') label.textContent = 'Send enquiry'; }, 4000);
+    });
+  });
+})();
+
+/* ---------- coaching checkout via Stripe /api/checkout ---------- */
+(function(){
+  var buttons = [].slice.call(document.querySelectorAll('.plan .go[data-plan]'));
+  if (!buttons.length) return;
+
+  /* if checkout is not wired up, send them to the enquiry form with the
+     package already written in, rather than a button that does nothing */
+  function fallback(planLabel){
+    var box = document.getElementById('fmessage');
+    var sel = document.getElementById('floc');
+    if (box){
+      box.value = 'I would like to buy the ' + planLabel + '. Please send me a payment link.';
+      if (sel) sel.value = 'Coaching, not a camp';
+    }
+    var target = document.getElementById('enquire');
+    if (target) target.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'start' });
+    setTimeout(function(){
+      var msg = document.getElementById('fmsg');
+      if (msg){
+        msg.className = 'fmsg err';
+        msg.innerHTML = 'Card payment is not switched on yet. Send this through and we will email you a payment link, or call <a href="tel:' + PHONE + '">0431 525 118</a>.';
+      }
+      if (box) box.focus({ preventScroll: true });
+    }, 520);
+  }
+
+  buttons.forEach(function(btn){
+    var label = btn.querySelector('.t');
+    btn.addEventListener('click', function(){
+      if (btn.disabled) return;
+      btn.disabled = true; btn.classList.add('busy'); label.textContent = 'Opening';
+
+      fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: btn.dataset.plan })
+      })
+      .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, body: j }; }); })
+      .then(function(res){
+        if (res.ok && res.body && res.body.url){ window.location.href = res.body.url; return; }
+        throw new Error('checkout unavailable');
+      })
+      .catch(function(){
+        fallback(btn.dataset.label);
+        btn.disabled = false; btn.classList.remove('busy'); label.textContent = 'Purchase now';
+      });
+    });
+  });
+})();
+
 })();
 </script>
 </body>

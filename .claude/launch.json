@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "revivr",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "5031", "--directory", "/tmp/revivr-contrast"],
+      "port": 5031
+    }
+  ]
+}
