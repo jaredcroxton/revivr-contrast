@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Revivr: The Wellness Club — Recover. Rest. Revitalise.</title>
+<meta name="description" content="Cold water immersion, breathwork and sauna on the Sunshine Coast, Brisbane and the Gold Coast. A wellness camp, not a gym membership.">
+<meta name="theme-color" content="#04090F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..800,0..100;1,9..144,300..800,0..100&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   REVIVR — THE CONTRAST
+   Cold-blue plunge to sauna gold, one continuous scroll-film.
+   ============================================================ */
+:root{
+  --abyss:#04090F;
+  --ink:#0A131C;
+  --ink-2:#101C26;
+  --cold:#12405C;
+  --ice:#8FCFE3;
+  --frost:#DFEFF5;
+  --ember:#C2551A;
+  --ember-lt:#E2711D;
+  --gold:#E3A544;
+  --cedar:#4A2C16;
+  --ivory:#F6F1E8;
+  --ivory-2:#ECE2D2;
+  --char:#14120E;
+  --char-60:rgba(20,18,14,.62);
+  --char-38:rgba(20,18,14,.38);
+  --seam:#D59A52;
+  --pad:clamp(20px,5vw,84px);
+  --disp:"Fraunces",Georgia,serif;
+  --ui:"Schibsted Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--abyss);color:var(--frost);
+  font-family:var(--ui);font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+::selection{background:var(--ember-lt);color:#fff}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+
+/* ---------- loader ---------- */
+#loader{
+  position:fixed;inset:0;z-index:200;background:var(--abyss);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
+  transition:opacity .8s ease .15s,visibility .8s ease .15s;
+}
+#loader.gone{opacity:0;visibility:hidden}
+#loader .mark{width:34px;height:34px;color:var(--ice);opacity:.9}
+#loader .lbl{
+  font-size:10px;letter-spacing:.42em;text-transform:uppercase;
+  color:rgba(223,239,245,.42);font-weight:500;
+}
+#loader .track{width:min(240px,52vw);height:1px;background:rgba(223,239,245,.16);overflow:hidden}
+#loader .bar{height:100%;width:0;background:var(--ice);transition:width .25s ease}
+
+/* ---------- fixed chrome ---------- */
+.chrome{
+  position:fixed;top:0;left:0;right:0;z-index:80;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:20px var(--pad);color:var(--frost);
+  transition:color .5s ease;pointer-events:none;
+  text-shadow:0 1px 16px rgba(4,9,15,.62);
+}
+.chrome.on-light{color:var(--char);text-shadow:0 1px 16px rgba(246,241,232,.85)}
+.chrome.docked{
+  color:var(--char);background:var(--ivory);text-shadow:none;
+  border-bottom:1px solid rgba(20,18,14,.1);padding-top:14px;padding-bottom:14px;
+}
+.chrome > *{pointer-events:auto}
+.brand{display:flex;align-items:center;gap:11px}
+.brand svg{width:26px;height:26px;color:currentColor;flex:none}
+.brand .wm{
+  font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:.11em;
+  font-variation-settings:"SOFT" 0,"opsz" 40;line-height:1;
+}
+.nav{display:flex;align-items:center;gap:30px}
+.nav a{
+  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;
+  opacity:.72;transition:opacity .3s ease;position:relative;
+}
+.nav a::after{
+  content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:left;
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.nav a:hover{opacity:1}
+.nav a:hover::after{transform:scaleX(1)}
+.cta-sm{
+  font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;
+  border:1px solid currentColor;padding:10px 18px;border-radius:999px;
+  transition:background .35s ease,color .35s ease;
+}
+.chrome:not(.on-light) .cta-sm:hover{background:var(--frost);color:var(--abyss)}
+.chrome.on-light .cta-sm:hover{background:var(--char);color:var(--ivory)}
+@media(max-width:880px){.nav{display:none}}
+
+/* ---------- gauge (chapter + temperature readout) ---------- */
+.gauge{
+  position:fixed;right:var(--pad);top:50%;transform:translateY(-50%);z-index:70;
+  display:flex;align-items:center;gap:16px;color:var(--frost);
+  transition:color .5s ease,opacity .6s ease;
+  text-shadow:0 1px 16px rgba(4,9,15,.62);
+}
+.gauge.on-light{color:var(--char);text-shadow:0 1px 16px rgba(246,241,232,.85)}
+.gauge.hidden{opacity:0;pointer-events:none}
+.gauge .track{width:1px;height:150px;background:currentColor;opacity:.22;position:relative}
+.gauge .fill{position:absolute;left:-1px;top:0;width:3px;background:currentColor;height:0}
+.gauge .read{text-align:right}
+.gauge .temp{
+  font-family:var(--disp);font-size:31px;font-weight:400;line-height:.95;
+  font-variation-settings:"SOFT" 0,"opsz" 60;letter-spacing:-.01em;
+  font-variant-numeric:tabular-nums;
+}
+.gauge .temp sup{font-size:.44em;vertical-align:super;font-weight:500}
+.gauge .chap{
+  font-size:9px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;
+  opacity:.6;margin-top:8px;
+}
+@media(max-width:880px){
+  .gauge{top:auto;bottom:24px;right:auto;left:var(--pad);transform:none;flex-direction:row-reverse}
+  .gauge .track{height:44px}
+  .gauge .read{text-align:left}
+  .gauge .temp{font-size:24px}
+}
+
+/* ---------- film stage ---------- */
+#film{position:relative;height:860vh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--abyss)}
+#frame,#ambient{position:absolute;inset:0;width:100%;height:100%;display:block}
+#ambient{pointer-events:none}
+.vig{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(122% 88% at 50% 46%,transparent 34%,rgba(2,6,10,.62) 100%);
+}
+.grain{
+  position:absolute;inset:-160px;pointer-events:none;opacity:.16;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.1s steps(3) infinite;
+}
+@keyframes grain{
+  0%{transform:translate(0,0)}33%{transform:translate(-42px,26px)}66%{transform:translate(28px,-38px)}
+  100%{transform:translate(0,0)}
+}
+.seamfade{
+  position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:linear-gradient(to bottom,transparent 26%,var(--seam) 100%);
+}
+.fscrim{
+  position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:linear-gradient(100deg,rgba(4,9,15,.78) 0%,rgba(4,9,15,.5) 34%,transparent 64%);
+}
+@media(max-width:820px){
+  .fscrim{background:linear-gradient(to bottom,rgba(4,9,15,.72) 0%,rgba(4,9,15,.4) 55%,transparent 100%)}
+}
+
+/* ---------- beats ---------- */
+.beat{
+  position:absolute;inset:0;display:flex;align-items:center;
+  padding:0 var(--pad);pointer-events:none;opacity:0;will-change:opacity,transform;
+}
+.beat.mid{justify-content:center;text-align:center}
+.beat.left{justify-content:flex-start;text-align:left}
+.beat .inner{max-width:min(760px,92vw)}
+.beat.mid .inner{
+  max-width:min(1020px,96vw);padding:9vh 6vw;
+  background:radial-gradient(58% 58% at 50% 50%,rgba(4,9,15,.68) 0%,rgba(4,9,15,.44) 46%,transparent 78%);
+}
+.beat.mid .inner > *{max-width:760px;margin-left:auto;margin-right:auto}
+.eyebrow{
+  font-size:10px;letter-spacing:.36em;text-transform:uppercase;font-weight:600;
+  color:rgba(223,239,245,.6);margin-bottom:22px;
+}
+.beat h1{
+  font-family:var(--disp);font-weight:300;font-size:clamp(64px,15.5vw,206px);
+  line-height:.86;letter-spacing:.02em;
+  font-variation-settings:"SOFT" 0,"opsz" 144,"WONK" 0;
+  text-shadow:0 6px 60px rgba(2,8,14,.5);
+}
+.beat h2{
+  font-family:var(--disp);font-weight:300;font-size:clamp(30px,5.4vw,68px);
+  line-height:1.08;letter-spacing:-.008em;
+  font-variation-settings:"SOFT" 30,"opsz" 100;
+  text-shadow:0 2px 10px rgba(2,8,14,.7),0 4px 44px rgba(2,8,14,.6);
+}
+.beat .tag{
+  margin-top:22px;font-size:11.5px;letter-spacing:.32em;text-transform:uppercase;
+  font-weight:600;color:rgba(223,239,245,.78);
+}
+.beat .sub{
+  margin-top:20px;font-size:clamp(14px,1.5vw,17px);line-height:1.65;
+  max-width:44ch;color:rgba(223,239,245,.72);
+}
+.beat.left .sub{margin-left:0}
+.beat.mid .sub{margin-left:auto;margin-right:auto}
+.btn{
+  display:inline-flex;align-items:center;gap:12px;margin-top:34px;pointer-events:auto;
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;
+  background:var(--ember-lt);color:#fff;padding:16px 30px;border-radius:999px;
+  transition:transform .4s cubic-bezier(.16,1,.3,1),background .3s ease;
+}
+.btn:hover{transform:translateY(-2px);background:#F2872C}
+.btn svg{width:13px;height:13px}
+.cue{
+  position:absolute;left:50%;bottom:32px;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  font-size:9px;letter-spacing:.3em;text-transform:uppercase;font-weight:600;
+  color:rgba(223,239,245,.5);transition:opacity .5s ease;
+}
+.cue i{display:block;width:1px;height:44px;background:linear-gradient(to bottom,rgba(223,239,245,.6),transparent);animation:cue 2.4s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.25;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ---------- after-film content ---------- */
+.after{position:relative;z-index:5}
+.after section{padding:clamp(88px,12vw,168px) var(--pad)}
+.lede{font-family:var(--disp);font-weight:300;font-variation-settings:"SOFT" 40,"opsz" 90}
+.kicker{
+  font-size:10px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;
+  display:flex;align-items:center;gap:12px;margin-bottom:26px;
+}
+.kicker::before{content:"";width:26px;height:1px;background:currentColor;opacity:.5}
+.wrap{max-width:1240px;margin:0 auto}
+
+/* manifesto — melts out of the film */
+.manifesto{
+  background:linear-gradient(to bottom,var(--seam) 0%,#D5A967 24%,#E6CBA0 52%,var(--ivory-2) 80%,var(--ivory) 100%);
+  color:var(--char);padding-top:clamp(150px,24vw,320px);
+}
+.manifesto .kicker{color:#5E3A12}
+.manifesto h2{
+  font-family:var(--disp);font-weight:300;font-size:clamp(34px,6.2vw,86px);line-height:1.02;
+  letter-spacing:-.015em;font-variation-settings:"SOFT" 50,"opsz" 144;max-width:16ch;
+}
+.manifesto .body{
+  margin-top:44px;max-width:58ch;font-size:clamp(15px,1.6vw,18.5px);line-height:1.72;
+  color:rgba(20,18,14,.72);
+}
+
+/* protocol */
+.protocol{background:var(--ivory);color:var(--char)}
+.protocol .kicker{color:var(--ember)}
+.protocol h2{
+  font-family:var(--disp);font-weight:300;font-size:clamp(32px,5.4vw,66px);line-height:1.05;
+  letter-spacing:-.015em;font-variation-settings:"SOFT" 40,"opsz" 120;max-width:15ch;
+}
+.rows{margin-top:clamp(48px,7vw,86px);border-top:1px solid rgba(20,18,14,.14)}
+.row{
+  display:grid;grid-template-columns:88px minmax(0,1.05fr) minmax(0,1.3fr);gap:clamp(18px,4vw,54px);
+  align-items:start;padding:clamp(28px,4vw,44px) 0;border-bottom:1px solid rgba(20,18,14,.14);
+  transition:background .5s ease;
+}
+.row:hover{background:rgba(20,18,14,.028)}
+.row .n{
+  font-family:var(--disp);font-size:15px;font-weight:500;letter-spacing:.06em;
+  font-variation-settings:"opsz" 30;color:var(--ember);padding-top:6px;
+}
+.row h3{
+  font-family:var(--disp);font-weight:300;font-size:clamp(26px,3.6vw,44px);line-height:1.06;
+  letter-spacing:-.01em;font-variation-settings:"SOFT" 40,"opsz" 90;
+}
+.row p{font-size:15.5px;line-height:1.7;color:var(--char-60);max-width:46ch;padding-top:8px}
+.row .meta{
+  margin-top:14px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+  font-weight:600;color:var(--char-38);
+}
+@media(max-width:820px){
+  .row{grid-template-columns:44px 1fr}
+  .row p{grid-column:2}
+}
+
+/* a morning at camp — the cold section */
+.morning{background:var(--ink);color:var(--frost);position:relative;overflow:hidden}
+.morning::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(78% 58% at 12% 0%,rgba(143,207,227,.10),transparent 70%);
+}
+.morning .kicker{color:var(--ice)}
+.morning h2{
+  font-family:var(--disp);font-weight:300;font-size:clamp(32px,5.4vw,66px);line-height:1.05;
+  letter-spacing:-.015em;font-variation-settings:"SOFT" 20,"opsz" 120;max-width:15ch;
+}
+.time{margin-top:clamp(48px,7vw,80px);position:relative}
+.time::before{
+  content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;
+  background:linear-gradient(to bottom,var(--ice),rgba(143,207,227,.14));
+}
+.tick{
+  display:grid;grid-template-columns:112px 1fr;gap:clamp(16px,3vw,40px);
+  padding:clamp(16px,2.4vw,26px) 0 clamp(16px,2.4vw,26px) clamp(24px,3vw,44px);
+  align-items:baseline;
+}
+.tick .t{
+  font-family:var(--disp);font-size:clamp(19px,2.3vw,27px);font-weight:400;
+  font-variation-settings:"SOFT" 0,"opsz" 60;color:var(--ice);
+  font-variant-numeric:tabular-nums;letter-spacing:.01em;
+}
+.tick .d strong{
+  display:block;font-family:var(--ui);font-size:15.5px;font-weight:600;letter-spacing:.005em;
+  margin-bottom:5px;
+}
+.tick .d span{font-size:14.5px;line-height:1.65;color:rgba(223,239,245,.6)}
+@media(max-width:660px){.tick{grid-template-columns:78px 1fr}}
+.morning .foot{
+  margin-top:clamp(40px,6vw,64px);padding-top:26px;border-top:1px solid rgba(223,239,245,.14);
+  display:flex;flex-wrap:wrap;gap:14px 40px;align-items:baseline;
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;
+  color:rgba(223,239,245,.5);
+}
+
+/* locations */
+.locations{background:var(--ivory);color:var(--char)}
+.locations .kicker{color:var(--ember)}
+.locations h2{
+  font-family:var(--disp);font-weight:300;font-size:clamp(32px,5.4vw,66px);line-height:1.05;
+  letter-spacing:-.015em;font-variation-settings:"SOFT" 40,"opsz" 120;max-width:14ch;
+}
+.locs{
+  margin-top:clamp(46px,6vw,78px);display:grid;gap:1px;background:rgba(20,18,14,.14);
+  grid-template-columns:repeat(3,1fr);border:1px solid rgba(20,18,14,.14);
+}
+.loc{background:var(--ivory);padding:clamp(28px,3.4vw,44px);transition:background .5s ease}
+.loc:hover{background:var(--ivory-2)}
+.loc .no{
+  font-size:10px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;
+  color:var(--ember);margin-bottom:22px;
+}
+.loc h3{
+  font-family:var(--disp);font-weight:300;font-size:clamp(26px,3.2vw,40px);line-height:1.05;
+  font-variation-settings:"SOFT" 40,"opsz" 90;letter-spacing:-.012em;
+}
+.loc p{margin-top:16px;font-size:14.5px;line-height:1.68;color:var(--char-60)}
+.loc .st{
+  margin-top:22px;font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+  font-weight:700;color:var(--char-38);
+}
+.loc .st.live{color:var(--ember)}
+@media(max-width:860px){.locs{grid-template-columns:1fr}}
+
+/* pricing */
+.pricing{background:var(--ivory-2);color:var(--char)}
+.pricing .kicker{color:var(--ember)}
+.pricing h2{
+  font-family:var(--disp);font-weight:300;font-size:clamp(32px,5.4vw,66px);line-height:1.05;
+  letter-spacing:-.015em;font-variation-settings:"SOFT" 40,"opsz" 120;max-width:14ch;
+}
+.plans{margin-top:clamp(46px,6vw,78px);display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,22px)}
+.plan{
+  background:var(--ivory);border:1px solid rgba(20,18,14,.13);padding:clamp(28px,3vw,40px);
+  display:flex;flex-direction:column;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s ease;
+}
+.plan:hover{transform:translateY(-4px);box-shadow:0 22px 48px -28px rgba(20,18,14,.42)}
+.plan.hero{background:var(--ink);border-color:var(--ink);color:var(--frost)}
+.plan .name{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--ember)}
+.plan.hero .name{color:var(--gold)}
+.plan .price{
+  margin-top:26px;font-family:var(--disp);font-weight:300;font-size:clamp(42px,5vw,62px);
+  line-height:1;font-variation-settings:"SOFT" 20,"opsz" 120;letter-spacing:-.02em;
+}
+.plan .per{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:var(--char-38);margin-top:10px}
+.plan.hero .per{color:rgba(223,239,245,.5)}
+.plan ul{list-style:none;margin-top:28px;padding-top:22px;border-top:1px solid rgba(20,18,14,.13);flex:1}
+.plan.hero ul{border-top-color:rgba(223,239,245,.16)}
+.plan li{
+  font-size:14.5px;line-height:1.6;padding-left:20px;position:relative;margin-bottom:12px;color:var(--char-60);
+}
+.plan.hero li{color:rgba(223,239,245,.76)}
+.plan li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:1px;background:var(--ember)}
+.plan.hero li::before{background:var(--gold)}
+.plan .go{
+  margin-top:30px;text-align:center;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  font-weight:700;padding:15px;border:1px solid currentColor;border-radius:999px;
+  transition:background .35s ease,color .35s ease;
+}
+.plan .go:hover{background:var(--char);color:var(--ivory)}
+.plan.hero .go{background:var(--ember-lt);border-color:var(--ember-lt);color:#fff}
+.plan.hero .go:hover{background:#F2872C;border-color:#F2872C}
+@media(max-width:860px){.plans{grid-template-columns:1fr}}
+
+/* partners */
+.partners{background:var(--ivory);color:var(--char);padding-top:clamp(64px,8vw,96px);padding-bottom:clamp(64px,8vw,96px)}
+.partners .kicker{color:var(--char-38);justify-content:center}
+.partners .kicker::before{display:none}
+.plist{
+  margin-top:34px;display:flex;flex-wrap:wrap;justify-content:center;
+  gap:clamp(22px,4vw,64px);align-items:center;
+}
+.plist span{
+  font-family:var(--disp);font-weight:400;font-size:clamp(16px,2vw,24px);
+  font-variation-settings:"SOFT" 30,"opsz" 50;letter-spacing:.005em;
+  color:var(--char-38);transition:color .4s ease;
+}
+.plist span:hover{color:var(--char)}
+
+/* footer */
+footer{background:var(--abyss);color:var(--frost);padding:clamp(72px,9vw,120px) var(--pad) 40px}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:clamp(30px,5vw,72px);max-width:1240px;margin:0 auto}
+.fbrand svg{width:34px;height:34px;color:var(--ice)}
+.fbrand .wm{
+  font-family:var(--disp);font-weight:600;font-size:26px;letter-spacing:.11em;margin-top:18px;
+  font-variation-settings:"SOFT" 0,"opsz" 60;
+}
+.fbrand p{margin-top:14px;font-size:14px;color:rgba(223,239,245,.52);max-width:34ch;line-height:1.7}
+.fcol h4{
+  font-size:10px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;
+  color:rgba(223,239,245,.42);margin-bottom:20px;
+}
+.fcol a,.fcol p{display:block;font-size:14.5px;line-height:1.9;color:rgba(223,239,245,.78)}
+.fcol a{transition:color .3s ease}
+.fcol a:hover{color:var(--ice)}
+.socials{display:flex;gap:14px;margin-top:24px}
+.socials a{
+  width:36px;height:36px;border:1px solid rgba(223,239,245,.2);border-radius:999px;
+  display:flex;align-items:center;justify-content:center;transition:background .35s ease,color .35s ease,border-color .35s ease;
+}
+.socials a:hover{background:var(--frost);color:var(--abyss);border-color:var(--frost)}
+.socials svg{width:15px;height:15px}
+.fbot{
+  max-width:1240px;margin:clamp(52px,7vw,86px) auto 0;padding-top:26px;
+  border-top:1px solid rgba(223,239,245,.12);display:flex;flex-wrap:wrap;gap:12px 32px;
+  justify-content:space-between;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(223,239,245,.4);font-weight:500;
+}
+.fbot nav{display:flex;flex-wrap:wrap;gap:12px 26px}
+@media(max-width:860px){.fgrid{grid-template-columns:1fr}}
+
+@media(prefers-reduced-motion:reduce){
+  .grain{animation:none}
+  .cue i{animation:none}
+  *{transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+    <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <path d="M16 6.2A9.8 9.8 0 0 1 16 25.8Z" fill="currentColor"/>
+  </svg>
+  <div class="track"><div class="bar" id="lbar"></div></div>
+  <div class="lbl" id="lpct">Loading 0%</div>
+</div>
+
+<header class="chrome" id="chrome">
+  <a class="brand" href="#top" aria-label="Revivr home">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M16 6.2A9.8 9.8 0 0 1 16 25.8Z" fill="currentColor"/>
+    </svg>
+    <span class="wm">REVIVR</span>
+  </a>
+  <nav class="nav">
+    <a href="#protocol">The Protocol</a>
+    <a href="#morning">A Morning</a>
+    <a href="#locations">Locations</a>
+    <a href="#pricing">Pricing</a>
+  </nav>
+  <a class="cta-sm" href="#pricing">Book a camp</a>
+</header>
+
+<div class="gauge" id="gauge">
+  <div class="read">
+    <div class="temp"><span id="gtemp">17</span><sup>&deg;C</sup></div>
+    <div class="chap" id="gchap">Surface</div>
+  </div>
+  <div class="track"><div class="fill" id="gfill"></div></div>
+</div>
+
+<section id="film">
+  <div class="stage" id="top">
+    <canvas id="frame"></canvas>
+    <canvas id="ambient"></canvas>
+    <div class="vig"></div>
+    <div class="grain"></div>
+    <div class="fscrim" id="fscrim"></div>
+    <div class="seamfade" id="seamfade"></div>
+
+    <div class="beat mid" data-in="-0.1" data-peak="0" data-out="0.085">
+      <div class="inner">
+        <div class="eyebrow">Sunshine Coast &middot; Brisbane &middot; Gold Coast</div>
+        <h1>REVIVR</h1>
+        <div class="tag">Recover &mdash; Rest &mdash; Revitalise</div>
+      </div>
+    </div>
+
+    <div class="beat mid" data-in="0.10" data-peak="0.155" data-out="0.215">
+      <div class="inner"><h2>It starts before the sun does.</h2></div>
+    </div>
+
+    <div class="beat mid" data-in="0.27" data-peak="0.335" data-out="0.40">
+      <div class="inner">
+        <h2>Eleven degrees.<br>Everything else goes quiet.</h2>
+      </div>
+    </div>
+
+    <div class="beat mid" data-in="0.45" data-peak="0.515" data-out="0.585">
+      <div class="inner">
+        <h2>The cold is not the punishment.<br>It is the reset.</h2>
+      </div>
+    </div>
+
+    <div class="beat mid" data-in="0.63" data-peak="0.69" data-out="0.76">
+      <div class="inner"><h2>Then the heat takes over.</h2></div>
+    </div>
+
+    <div class="beat left" data-in="0.83" data-peak="0.905" data-out="2">
+      <div class="inner">
+        <div class="eyebrow">Eighty-five degrees</div>
+        <h2>You leave lighter<br>than you arrived.</h2>
+        <p class="sub">Cold water, breathwork, sauna and stillness, run as one guided morning with a room full of people doing it beside you.</p>
+        <a class="btn" href="#pricing">Book a camp
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="cue" id="cue"><span>Scroll</span><i></i></div>
+  </div>
+</section>
+
+<main class="after">
+
+  <section class="manifesto">
+    <div class="wrap">
+      <div class="kicker">Welcome to Revivr</div>
+      <h2 class="lede">A wellness camp, not a gym membership.</h2>
+      <p class="body">The Revivr Club Wellness Camp and Day Experience takes you on a powerful journey through hand-selected wellness partner locations where nature, movement and community come together. From cold water dips and grounding breathwork to social connection and mindfulness-based workshops, every activity is designed to boost your mental clarity and create sustainable, positive habit change.</p>
+    </div>
+  </section>
+
+  <section class="protocol" id="protocol">
+    <div class="wrap">
+      <div class="kicker">The Protocol</div>
+      <h2 class="lede">Four things, in the right order, with someone watching.</h2>
+      <div class="rows">
+        <div class="row">
+          <div class="n">01</div>
+          <h3>Cold</h3>
+          <div>
+            <p>Cold water immersion at around eleven degrees. Two to three minutes, coached the whole way, scaled to the person standing in the tub. It is controlled exposure, never a dare.</p>
+            <div class="meta">Cold water dips</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="n">02</div>
+          <h3>Breath</h3>
+          <div>
+            <p>Grounding breathwork before you get in and after you get out. This is the part that turns a cold dip into a nervous system reset instead of a shock.</p>
+            <div class="meta">Grounding breathwork</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="n">03</div>
+          <h3>Heat</h3>
+          <div>
+            <p>Sauna. Ideal for loosening up muscles, and the half of contrast therapy everyone actually looks forward to. Rounds run hot and long enough to matter.</p>
+            <div class="meta">Sauna &middot; contrast rounds</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="n">04</div>
+          <h3>Stillness</h3>
+          <div>
+            <p>Mindfulness-based workshops, yoga and pilates. Great for mind and body wellbeing, and the reason people come back after the novelty of the ice wears off.</p>
+            <div class="meta">Yoga &middot; pilates &middot; workshops</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="morning" id="morning">
+    <div class="wrap">
+      <div class="kicker">A morning at camp</div>
+      <h2 class="lede">Three hours that reset the week.</h2>
+      <div class="time">
+        <div class="tick"><div class="t">06:15</div><div class="d"><strong>Arrive</strong><span>Coffee, a headland, and everyone's phone face down in a basket.</span></div></div>
+        <div class="tick"><div class="t">06:40</div><div class="d"><strong>Breath circle</strong><span>Grounding breathwork on the grass. You learn the pattern you will use in the water.</span></div></div>
+        <div class="tick"><div class="t">07:00</div><div class="d"><strong>The plunge</strong><span>Cold water immersion, coached, in pairs. Nobody goes in alone.</span></div></div>
+        <div class="tick"><div class="t">07:25</div><div class="d"><strong>Sauna, round one</strong><span>Heat, silence, and the moment your shoulders finally drop.</span></div></div>
+        <div class="tick"><div class="t">07:55</div><div class="d"><strong>Move</strong><span>Strength, yoga or pilates. Whichever your body is asking for that morning.</span></div></div>
+        <div class="tick"><div class="t">08:35</div><div class="d"><strong>Contrast rounds</strong><span>Cold, hot, cold. This is where the habit actually forms.</span></div></div>
+        <div class="tick"><div class="t">09:10</div><div class="d"><strong>Sit down together</strong><span>Food, conversation, and the community half of the thing nobody advertises.</span></div></div>
+      </div>
+      <div class="foot">
+        <span>Seven days a week</span><span>07:00 &ndash; 22:00</span><span>All levels, all ages</span><span>Bring a towel</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="locations" id="locations">
+    <div class="wrap">
+      <div class="kicker">Camp locations</div>
+      <h2 class="lede">Hand-selected partner sites down the south-east coast.</h2>
+      <div class="locs">
+        <div class="loc">
+          <div class="no">01 &mdash; Home</div>
+          <h3>Sunshine Coast</h3>
+          <p>13 Fairfax Street, Sippy Downs QLD 4556. The home camp, and where the full day experience runs.</p>
+          <div class="st live">Running weekly</div>
+        </div>
+        <div class="loc">
+          <div class="no">02</div>
+          <h3>Brisbane</h3>
+          <p>Partner sites across the river city, built for people who want the protocol without the drive north.</p>
+          <div class="st live">Running weekly</div>
+        </div>
+        <div class="loc">
+          <div class="no">03</div>
+          <h3>Gold Coast</h3>
+          <p>Coastal camps with the same protocol, the same coaches, and a very different view of the sunrise.</p>
+          <div class="st live">Running weekly</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="wrap">
+      <div class="kicker">Choose your plan</div>
+      <h2 class="lede">Coaching that carries on after the ice.</h2>
+      <div class="plans">
+        <div class="plan hero">
+          <div class="name">Essential Coaching Package</div>
+          <div class="price">$99</div>
+          <div class="per">Per week</div>
+          <ul>
+            <li>45 minute PT session each week</li>
+            <li>Custom online program</li>
+          </ul>
+          <a class="go" href="#contact">Purchase now</a>
+        </div>
+        <div class="plan">
+          <div class="name">Coaching Session</div>
+          <div class="price">$75</div>
+          <div class="per">Per session</div>
+          <ul>
+            <li>45 minute PT session</li>
+          </ul>
+          <a class="go" href="#contact">Purchase now</a>
+        </div>
+        <div class="plan">
+          <div class="name">PT Business Coaching</div>
+          <div class="price">$99</div>
+          <div class="per">Per month</div>
+          <ul>
+            <li>90 minute development session, fortnightly</li>
+          </ul>
+          <a class="go" href="#contact">Purchase now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="partners">
+    <div class="wrap">
+      <div class="kicker">Our partners</div>
+      <div class="plist">
+        <span>Fitness Cartel</span><span>Recovery Room Australia</span><span>Med Infusions</span><span>One Block Back</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="fgrid">
+    <div class="fbrand">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M16 6.2A9.8 9.8 0 0 1 16 25.8Z" fill="currentColor"/>
+      </svg>
+      <div class="wm">REVIVR</div>
+      <p>The Wellness Club. Cold water, breath, heat and stillness, run as a guided camp across South East Queensland.</p>
+      <div class="socials">
+        <a href="#" aria-label="Revivr on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.66l7.73-8.83L1.25 2.25h6.83l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.11z"/></svg></a>
+        <a href="#" aria-label="Revivr on Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.8 3.8 0 0 1-1.38-.9 3.8 3.8 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.18a6.66 6.66 0 1 0 0 13.32 6.66 6.66 0 0 0 0-13.32zm0 10.98a4.32 4.32 0 1 1 0-8.64 4.32 4.32 0 0 1 0 8.64zm8.48-11.24a1.56 1.56 0 1 1-3.11 0 1.56 1.56 0 0 1 3.11 0z"/></svg></a>
+        <a href="#" aria-label="Revivr on WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.86 1.21 3.06c.15.2 2.09 3.2 5.07 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.8h-.01a9.8 9.8 0 0 1-4.99-1.37l-.36-.21-3.71.97.99-3.62-.23-.37a9.78 9.78 0 0 1-1.5-5.22c0-5.4 4.4-9.8 9.81-9.8a9.74 9.74 0 0 1 6.93 2.88 9.72 9.72 0 0 1 2.87 6.93c0 5.4-4.4 9.81-9.8 9.81zM20.4 3.58A11.68 11.68 0 0 0 12.05 0C5.6 0 .35 5.25.34 11.7c0 2.06.54 4.08 1.57 5.86L.25 24l6.58-1.73a11.7 11.7 0 0 0 5.22 1.24h.01c6.45 0 11.7-5.25 11.7-11.7 0-3.13-1.21-6.06-3.42-8.27z"/></svg></a>
+      </div>
+    </div>
+    <div class="fcol">
+      <h4>Get in touch</h4>
+      <a href="tel:0431525118">0431 525 118</a>
+      <a href="mailto:info@revivr.com.au">info@revivr.com.au</a>
+      <p>13 Fairfax Street<br>Sippy Downs, Queensland 4556</p>
+    </div>
+    <div class="fcol">
+      <h4>Open</h4>
+      <p>Monday to Friday<br>07:00 &ndash; 22:00</p>
+      <p>Saturday &amp; Sunday<br>07:00 &ndash; 22:00</p>
+    </div>
+  </div>
+  <div class="fbot">
+    <span>&copy; 2026 Revivr: The Wellness Club</span>
+    <nav>
+      <a href="#">Terms &amp; Conditions</a><a href="#">Privacy Policy</a><a href="#">FAQs</a><a href="#">Careers</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* ---------- config ---------- */
+var FRAME_COUNT = 301;
+var FRAME_PATH  = function(i){ return 'frames/f_' + String(i+1).padStart(4,'0') + '.jpg'; };
+var REDUCED     = matchMedia('(prefers-reduced-motion: reduce)').matches;
+var JUMP        = new URLSearchParams(location.search).get('jump');
+if (JUMP !== null) history.scrollRestoration = 'manual';
+
+/* chapters across film progress 0..1 */
+var CHAPTERS = [
+  { at:0.00, name:'Surface' },
+  { at:0.20, name:'The Break' },
+  { at:0.40, name:'The Cold' },
+  { at:0.60, name:'The Turn' },
+  { at:0.80, name:'The Heat' }
+];
+/* temperature curve: dawn air, into the plunge, then the sauna */
+var TEMPS = [[0,17],[0.20,12],[0.30,11],[0.50,11],[0.60,18],[0.70,45],[0.82,68],[1,85]];
+
+/* ---------- dom ---------- */
+var cv      = document.getElementById('frame');
+var ctx     = cv.getContext('2d', { alpha:false });
+var amb     = document.getElementById('ambient');
+var actx    = amb.getContext('2d');
+var filmEl  = document.getElementById('film');
+var chrome  = document.getElementById('chrome');
+var gauge   = document.getElementById('gauge');
+var gtemp   = document.getElementById('gtemp');
+var gchap   = document.getElementById('gchap');
+var gfill   = document.getElementById('gfill');
+var seamEl  = document.getElementById('seamfade');
+var fscrim  = document.getElementById('fscrim');
+var cueEl   = document.getElementById('cue');
+var loader  = document.getElementById('loader');
+var lbar    = document.getElementById('lbar');
+var lpct    = document.getElementById('lpct');
+var beats   = [].slice.call(document.querySelectorAll('.beat')).map(function(el){
+  return { el:el, in:+el.dataset.in, peak:+el.dataset.peak, out:+el.dataset.out, alpha:-1 };
+});
+
+/* ---------- canvas sizing ---------- */
+var DPR = Math.min(devicePixelRatio || 1, 1.5);
+var vw = 0, vh = 0;
+function size(){
+  vw = innerWidth; vh = window.visualViewport ? window.visualViewport.height : innerHeight;
+  cv.width  = Math.round(vw*DPR); cv.height  = Math.round(vh*DPR);
+  amb.width = Math.round(vw*DPR); amb.height = Math.round(vh*DPR);
+  drawFrame(displayed, true);
+}
+addEventListener('resize', size);
+
+/* ---------- frame store ---------- */
+var images = new Array(FRAME_COUNT);
+var loadedFlag = new Uint8Array(FRAME_COUNT);
+var loadedCount = 0, ready = false, displayed = 0;
+
+function pump(){
+  var next = 0, inflight = 0, MAX = 10;
+  function start(){
+    while (inflight < MAX && next < FRAME_COUNT){
+      (function(i){
+        inflight++;
+        var im = new Image();
+        im.decoding = 'async';
+        im.onload = function(){
+          images[i] = im; loadedFlag[i] = 1; loadedCount++;
+          inflight--; onProgress(); start();
+        };
+        im.onerror = function(){ loadedCount++; inflight--; onProgress(); start(); };
+        im.src = FRAME_PATH(i);
+      })(next++);
+    }
+  }
+  start();
+}
+function onProgress(){
+  var p = loadedCount / FRAME_COUNT;
+  lbar.style.width = (p*100).toFixed(1) + '%';
+  lpct.textContent = 'Loading ' + Math.round(p*100) + '%';
+  if (!ready && (loadedFlag[0] && loadedCount >= Math.min(FRAME_COUNT, 40))) boot();
+  if (loadedCount >= FRAME_COUNT) finish();
+}
+
+/* ---------- ImageBitmap sliding window (the anti-jank core) ---------- */
+var bitmaps = new Map(), decoding = new Set();
+var B_AHEAD = 18, B_KEEP = 28, bmpCenter = -999;
+function ensureBitmaps(center){
+  if (Math.abs(center - bmpCenter) < 3) return;
+  bmpCenter = center;
+  var lo = Math.max(0, center - B_AHEAD), hi = Math.min(FRAME_COUNT-1, center + B_AHEAD);
+  for (var i = lo; i <= hi; i++){
+    if (bitmaps.has(i) || decoding.has(i) || !images[i]) continue;
+    (function(i){
+      decoding.add(i);
+      createImageBitmap(images[i]).then(function(b){
+        decoding.delete(i);
+        if (Math.abs(i - bmpCenter) > B_KEEP){ b.close(); return; }
+        bitmaps.set(i, b);
+        if (i === displayed) drawFrame(i, true);
+      }).catch(function(){ decoding.delete(i); });
+    })(i);
+  }
+  bitmaps.forEach(function(b, k){
+    if (k < center - B_KEEP || k > center + B_KEEP){ b.close(); bitmaps.delete(k); }
+  });
+}
+function nearestFrame(i){
+  if (loadedFlag[i]) return i;
+  for (var d = 1; d < FRAME_COUNT; d++){
+    if (i-d >= 0 && loadedFlag[i-d]) return i-d;
+    if (i+d < FRAME_COUNT && loadedFlag[i+d]) return i+d;
+  }
+  return -1;
+}
+
+/* ---------- draw (cover fit) ---------- */
+function drawFrame(idx, force){
+  if (!force && idx === displayed) return;
+  var src = bitmaps.get(idx);
+  var w, h;
+  if (src){ w = src.width; h = src.height; }
+  else {
+    var n = nearestFrame(idx);
+    if (n < 0) return;
+    src = images[n]; if (!src) return;
+    w = src.naturalWidth; h = src.naturalHeight;
+  }
+  var cw = cv.width, ch = cv.height;
+  var s = Math.max(cw/w, ch/h);
+  var dw = w*s, dh = h*s;
+  ctx.drawImage(src, (cw-dw)/2, (ch-dh)/2, dw, dh);
+  displayed = idx;
+}
+
+/* ---------- adaptive header luminance ---------- */
+var lc = document.createElement('canvas'); lc.width = 16; lc.height = 4;
+var lctx = lc.getContext('2d', { willReadFrequently:true });
+var onLight = false, gaugeLight = false;
+function lumOf(sx, sy, sw, sh){
+  lctx.drawImage(cv, sx, sy, sw, sh, 0, 0, 16, 4);
+  var d = lctx.getImageData(0,0,16,4).data, sum = 0;
+  for (var i = 0; i < d.length; i += 4) sum += 0.2126*d[i] + 0.7152*d[i+1] + 0.0722*d[i+2];
+  return sum / (d.length/4);
+}
+function sampleLuminance(){
+  if (!cv.width) return;
+  try {
+    /* the header reads the top strip; the gauge reads the band it actually sits in */
+    var head = lumOf(0, 0, cv.width, Math.round(cv.height*0.16)) > 138;
+    var side = (vw <= 880
+      ? lumOf(0, Math.round(cv.height*0.82), Math.round(cv.width*0.45), Math.round(cv.height*0.18))
+      : lumOf(Math.round(cv.width*0.74), Math.round(cv.height*0.36),
+              Math.round(cv.width*0.26), Math.round(cv.height*0.28))) > 138;
+    if (head !== onLight){ onLight = head; chrome.classList.toggle('on-light', head); }
+    if (side !== gaugeLight){ gaugeLight = side; gauge.classList.toggle('on-light', side); }
+  } catch(e){}
+}
+setInterval(sampleLuminance, 180);
+
+/* ---------- ambient cold motes over the opening ---------- */
+var motes = [], sprite = null, ambAlpha = 1, ambLive = !REDUCED;
+function buildSprite(){
+  var s = document.createElement('canvas'); s.width = s.height = 32;
+  var g = s.getContext('2d').createRadialGradient(16,16,0,16,16,16);
+  g.addColorStop(0,'rgba(223,239,245,.95)');
+  g.addColorStop(.4,'rgba(180,220,235,.34)');
+  g.addColorStop(1,'rgba(180,220,235,0)');
+  var c = s.getContext('2d'); c.fillStyle = g; c.fillRect(0,0,32,32);
+  return s;
+}
+function seedMotes(){
+  motes = [];
+  var n = Math.round(Math.min(90, vw/14));
+  for (var i = 0; i < n; i++){
+    var depth = Math.random();
+    motes.push({
+      x: Math.random()*vw, y: Math.random()*vh,
+      r: 1.2 + depth*4.4, vx: -(0.05 + depth*0.28), vy: -(0.04 + depth*0.16),
+      a: 0.10 + depth*0.32, ph: Math.random()*Math.PI*2, sp: 0.4 + Math.random()*1.1
+    });
+  }
+}
+function drawAmbient(t){
+  if (!ambLive) return;
+  actx.setTransform(DPR,0,0,DPR,0,0);
+  actx.clearRect(0,0,vw,vh);
+  if (ambAlpha <= 0.002) return;
+  actx.globalCompositeOperation = 'lighter';
+  for (var i = 0; i < motes.length; i++){
+    var m = motes[i];
+    m.x += m.vx; m.y += m.vy;
+    if (m.x < -20) m.x = vw+20;
+    if (m.y < -20){ m.y = vh+20; m.x = Math.random()*vw; }
+    var tw = 0.6 + 0.4*Math.sin(t*0.001*m.sp + m.ph);
+    actx.globalAlpha = m.a * tw * ambAlpha;
+    actx.drawImage(sprite, m.x - m.r, m.y - m.r, m.r*2, m.r*2);
+  }
+  actx.globalAlpha = 1;
+  actx.globalCompositeOperation = 'source-over';
+}
+
+/* ---------- helpers ---------- */
+function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+function beatAlpha(b, p){
+  if (p < b.in || p > b.out) return 0;
+  if (p < b.peak) return (p - b.in) / Math.max(1e-4, b.peak - b.in);
+  if (b.out > 1.5) return 1;
+  return 1 - (p - b.peak) / Math.max(1e-4, b.out - b.peak);
+}
+function tempAt(p){
+  for (var i = 0; i < TEMPS.length-1; i++){
+    var a = TEMPS[i], b = TEMPS[i+1];
+    if (p <= b[0]){
+      var k = (p - a[0]) / Math.max(1e-6, b[0] - a[0]);
+      return a[1] + (b[1] - a[1]) * clamp01(k);
+    }
+  }
+  return TEMPS[TEMPS.length-1][1];
+}
+function chapterAt(p){
+  var name = CHAPTERS[0].name;
+  for (var i = 0; i < CHAPTERS.length; i++) if (p >= CHAPTERS[i].at) name = CHAPTERS[i].name;
+  return name;
+}
+function filmProgress(){
+  var r = filmEl.getBoundingClientRect();
+  return clamp01(-r.top / Math.max(1, r.height - vh));
+}
+
+/* ---------- tick ---------- */
+var currentFrame = 0, lastChap = '', lastTemp = -1, lastT = 0, jankMax = 0, jankT = 0;
+function tick(t){
+  requestAnimationFrame(tick);
+  if (!ready) return;
+
+  if (lastT){ var d = t - lastT; if (d > jankMax) jankMax = d; }
+  lastT = t;
+  if (t - jankT > 2000){ jankT = t; if (jankMax > 50) console.log('[jank] max frame delta', jankMax.toFixed(1)+'ms'); jankMax = 0; }
+
+  var p = filmProgress();
+  var target = p * (FRAME_COUNT - 1);
+  { const __gap = target - currentFrame; if (Math.abs(__gap) > 36) currentFrame = target - Math.sign(__gap) * 8; }
+  currentFrame += (target - currentFrame) * (REDUCED ? 1 : 0.14);
+  var idx = Math.round(currentFrame);
+  if (idx < 0) idx = 0; if (idx > FRAME_COUNT-1) idx = FRAME_COUNT-1;
+  ensureBitmaps(idx);
+  drawFrame(idx, false);
+
+  /* beats */
+  for (var i = 0; i < beats.length; i++){
+    var b = beats[i], a = beatAlpha(b, p);
+    if (Math.abs(a - b.alpha) > 0.004){
+      b.alpha = a;
+      b.el.style.opacity = a;
+      b.el.style.transform = 'translateY(' + ((1-a)*22).toFixed(2) + 'px)';
+      b.el.style.visibility = a <= 0.004 ? 'hidden' : 'visible';
+      if (i === beats.length - 1) fscrim.style.opacity = a;
+    }
+  }
+
+  /* gauge */
+  var tmp = Math.round(tempAt(p));
+  if (tmp !== lastTemp){ lastTemp = tmp; gtemp.textContent = tmp; }
+  var ch = chapterAt(p);
+  if (ch !== lastChap){ lastChap = ch; gchap.textContent = ch; }
+  gfill.style.height = (p*100).toFixed(2) + '%';
+  gauge.classList.toggle('hidden', p >= 0.995);
+  chrome.classList.toggle('docked', p >= 0.999);
+
+  /* seam handoff + chrome fades */
+  var seam = clamp01((p - 0.90) / 0.10);
+  seamEl.style.opacity = seam;
+  document.querySelector('.grain').style.opacity = (0.16 * (1-seam)).toFixed(3);
+  cueEl.style.opacity = clamp01(1 - p*14);
+
+  /* ambient */
+  ambAlpha = clamp01(1 - p/0.07);
+  if (ambLive){ drawAmbient(t); if (ambAlpha <= 0.002 && amb.style.display !== 'none') amb.style.display = 'none';
+                else if (ambAlpha > 0.002) amb.style.display = ''; }
+}
+
+/* ---------- boot ---------- */
+function boot(){
+  if (ready) return;
+  ready = true;
+  size();
+  sprite = buildSprite(); seedMotes();
+  ensureBitmaps(0);
+  drawFrame(0, true);
+  sampleLuminance();
+  requestAnimationFrame(tick);
+}
+function finish(){
+  loader.classList.add('gone');
+  if (JUMP !== null){
+    scrollTo(0, +JUMP || 0);
+    currentFrame = filmProgress() * (FRAME_COUNT - 1);
+    var idx = Math.round(currentFrame);
+    ensureBitmaps(idx); drawFrame(idx, true); sampleLuminance();
+    setTimeout(function(){ window.__ready = true; }, 450);
+  } else {
+    window.__ready = true;
+  }
+}
+
+/* smooth scroll, if available and wanted */
+if (!REDUCED && JUMP === null && window.Lenis){
+  var lenis = new window.Lenis({ lerp:0.085, smoothWheel:true });
+  function raf(t){ lenis.raf(t); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var el = document.querySelector(a.getAttribute('href'));
+      if (el){ e.preventDefault(); lenis.scrollTo(el); }
+    });
+  });
+}
+
+size();
+pump();
+})();
+</script>
+</body>
+</html>

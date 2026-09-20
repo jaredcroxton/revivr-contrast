@@ -1,0 +1,31 @@
+{
+  "concept": "THE CONTRAST — one continuous forward push from a still dawn lagoon, down through the cold plunge, and out into sauna heat. The medium transforms around a camera that never turns around.",
+  "keyframe": "Cinematic photoreal frame, low and close just above the glass-still surface of a dark tidal lagoon at first light on the Sunshine Coast Australia. Low mist lying flat on black mirror water, a faint dark headland and pandanus silhouettes far in the background, pale blue pre-dawn sky reflected perfectly in the surface. Camera low, looking slightly down at the water. Cold desaturated blue-grey palette, deep shadows, fine natural film grain, 35mm anamorphic, shallow depth of field. No people, no text, no logos, no watermark.",
+  "clips": [
+    {
+      "id": "clip1",
+      "chapter": "SURFACE",
+      "prompt": "Continue the exact same shot from the reference frame, identical framing and identical colour grade. The camera glides forward and descends steadily toward the black mirror water, low mist parting around the lens, the reflection growing larger as the surface rushes closer. One continuous forward descent, cold blue-grey grade, fine film grain. No cut, no people, no text, no logos."
+    },
+    {
+      "id": "clip2",
+      "chapter": "THE BREAK",
+      "prompt": "Continue the exact same shot from the reference frame, identical framing and identical cold pre-dawn colour grade. The camera descends the last few centimetres and passes through the black mirror surface of the same dark lagoon. A dense curtain of white bubbles erupts and roars past the lens. Below the surface everything is near-black cold blue water with almost zero visibility, only churning bubbles and a faint pale grey glow of the dawn sky far above. One single unbroken take, no cut, no scene change, same location, same pre-dawn light. Absolutely no coral reef, no fish, no sand, no seabed, no rocks, no turquoise water, no sunlight, no daylight, no people, no text."
+    },
+    {
+      "id": "clip3",
+      "chapter": "THE COLD",
+      "prompt": "Continue the exact same shot from the reference frame, identical framing and identical dark cold colour grade. The camera keeps sinking slowly forward through deep, near-black, cold blue water. The last bubbles thin out and drift upward past the lens. A faint pale grey shaft of dawn light angles down from the distant surface high above. Tiny suspended particles drift by. Deep, silent, very cold, very dark. One single unbroken take, no cut, no scene change. Absolutely no coral reef, no fish, no sand, no seabed, no turquoise water, no sunlight, no daylight, no people, no text."
+    },
+    {
+      "id": "clip4",
+      "chapter": "THE TURN",
+      "prompt": "Continue the exact same shot from the reference frame, identical framing. The camera keeps pushing slowly forward while the near-black cold blue water gradually warms through deep teal into amber and gold, the water thinning and turning into rolling steam and vapour, the drifting particles becoming glowing golden motes. The medium transforms from cold dark water into hot amber mist around the lens. One single unbroken take, gradual blue to amber grade shift, no cut, no scene change. No coral reef, no fish, no sand, no seabed, no people, no text."
+    },
+    {
+      "id": "clip5",
+      "chapter": "THE HEAT",
+      "prompt": "Continue the exact same shot from the reference frame, identical framing and identical warm amber colour grade. The camera pushes forward through rolling amber steam which slowly clears to reveal the inside of a cedar timber sauna, hot golden light raking between the timber slats, steam and dust glowing in the beams, the camera continuing forward toward a bright doorway of warm sunrise light at the far end. One single unbroken take, no cut, no scene change, warm amber and honey grade, photoreal. No people, no text, no logos."
+    }
+  ]
+}

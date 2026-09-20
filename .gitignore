@@ -1,0 +1,6 @@
+.env
+.tmp/
+.vercel/
+node_modules/
+.DS_Store
+assets/clips-480p/
